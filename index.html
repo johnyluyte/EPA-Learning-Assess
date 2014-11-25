@@ -48,7 +48,7 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">開始試算</a>
           </li>
-          <li><a href="">查看 Alias</a>
+          <li><a href="manage.php" target="_blank">管理頁面</a>
           </li>
         </ul>
       </div>
@@ -72,37 +72,43 @@
             <div class="panel-body">
               <div class="row">
                 <div class="col-xs-6">
-                  <h4>人員與上課情形（兩欄式）:</h4>
-                  <input type="file" id="" />
+                  <h4>(A) 人員與上課情形（兩欄式）:</h4>
+                  <input type="file" id="thefile" />
                 </div>
                 <div class="col-xs-6">
-                  <h4>人員（單欄式）:</h4>
+                  <h4>(B) 單位人員名單（單欄式）:</h4>
                   <input type="file" id="" />
                 </div>
               </div>
             </div>
-            <button type="button" class="btn btn-primary btn-block btn-lg">開始執行</button>
+            <button type="button" class="btn btn-primary btn-block btn-lg" id="btn_start">開始執行</button>
+            <hr>
+            <div id="uploadResults">uploadResults</div>
           </div>
           <hr>
 
           <table class="table table-hover">
             <tr class="danger">
               <th>#</th>
+              <th>行數</th>
               <th>ID</th>
               <th>未知的課程名稱</th>
             </tr>
             <tr>
               <td>1</td>
+              <td>185</td>
               <td>A****02339 </td>
               <td>清淨家園（Ecolife）-社區綠美化 A123</td>
             </tr>
             <tr>
               <td>2</td>
+              <td>206</td>
               <td> N****09553 </td>
               <td>清淨家園（Ecolife）--社區綠美化</td>
             </tr>
             <tr>
               <td>3</td>
+              <td>311</td>
               <td> B****24375 </td>
               <td>清淨家園（Ecolife）-社區綠美化 sds</td>
             </tr>
@@ -113,6 +119,11 @@
             <a href="" target="_blank">請按此解決。</a>
             </strong>
           </div>
+          <div class="alert alert-danger" role="alert">
+            <strong>警告：檔案(A) 分析過程錯誤。代碼：ID 長度錯誤，行數：128。
+            </strong>
+          </div>
+
 
         </div>
         <!-- <div class="col-xs-6"> -->
@@ -181,7 +192,7 @@
               <th>採用之筆數</th>
               <th>資料總人數</th>
               <th>採用之人數</th>
-              <th></th>
+              <th>加分達成條件</th>
               <th>加分</th>
             </tr>
             <tr>
@@ -189,7 +200,7 @@
               <td>3000</td>
               <td>500</td>
               <td>300</td>
-              <td></td>
+              <td>128 / 300 人</td>
               <td class="success"><strong>1</strong>
               </td>
             </tr>
@@ -243,6 +254,8 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="lib/bootstrap/bootstrap.min.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/index.js"></script>
 </body>
 
 </html>
