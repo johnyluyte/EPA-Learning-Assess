@@ -5,10 +5,12 @@ $(function() {
 
 
 function init() {
-    fileExcelAll = "";
-    filefilePersonnel = "";
+    fileExcelAll = null;
+    filefilePersonnel = null;
     lecturesMap = {};
-} // init()
+    idMap = {};
+    idLecturesMap = {};
+  } // init()
 
 
 function loadJSON() {
@@ -32,15 +34,12 @@ function loadJSON() {
 }
 
 function afterLoadJSON() {
-  // printLectures();
   // printMap();
   bindButton();
 }
 
 
 function bindButton() {
-  // document.getElementById('studentChangeFileInput').addEventListener('change', loadFromFile, false);
-
   $('#input_fileExcelAll').change(function(e) {
     fileExcelAll = e.target.files[0];
   });
@@ -49,56 +48,131 @@ function bindButton() {
     filePersonnel = e.target.files[0];
   });
 
-  $('#btn_start').bind('click', function(){
+  $('#btn_start').bind('click', function() {
     loadFromFile();
   });
-
 }
 
 // TODO: 要不要改用 Worker tread 避免卡住?
 function loadFromFile() {
-  // var file = fileExcelAll;
-  var file = filePersonnel;
-  if (file) {
-    var fileReader = new FileReader();
-    fileReader.onload = function(e) {
-      var content = fileReader.result;
-      var lines = content.split('\n');
-      var linesLength = lines.length;
-      for (var i = 0; i < linesLength; i++) {
-        var words = lines[i].split(',');
-        // TODO:
-        console.log(words)
-      }
-    }
-    fileReader.readAsText(file);
-  } else {
-    alert("Failed to load file");
+  if (fileExcelAll == null) {
+    alert("您尚未指定檔案(A)：人員與上課情形（兩欄式）");
+    return;
   }
+
+  if (filePersonnel) {
+    // 要取 fileExcelAll 和 filePersonnel 的 ID 的交集
+    modeAstep1();
+    modeAstep2();
+  }
+
+}
+
+function strGetLectureOfficialName(lectureName){
+  // console.log(lectureName);
+  // apple = "病媒防治：噴藥器材簡介";
+  // if(apple==lectureName){
+  //   console.log("same");
+  // }
+  if(lectureName in lecturesMap){
+    return lecturesMap[lectureName];
+  }
+  return OFFICIAL_LECTURE_NAME_UNKNOW;
+}
+
+// 讀取 fileExcelAll 中符合 idMap 的 key 的 id，若其課程名稱對應到已知環保課程名稱，將其 idMap value 加一
+function modeAstep2() {
+  var countTotal = 0;
+  var countIDMatch = 0;
+  var countLectureMatch = 0;
+
+  var fileReader = new FileReader();
+  fileReader.onload = function(e) {
+    var content = fileReader.result;
+    var lines = content.split('\n');
+    var linesLength = lines.length;
+    for (var i = 0; i < linesLength; i++) {
+      var token = lines[i].split(',');
+      countTotal++;
+      // console.log(token[0]);
+
+      // [0] 身分證id , [1] 課程名稱
+      var id = token[0].trim();
+      var lecture = token[1].trim();
+      if (id in idMap) {
+        countIDMatch++;
+        var officialName = strGetLectureOfficialName(lecture);
+        if(officialName == OFFICIAL_LECTURE_NAME_UNKNOW){
+          // TODO: 顯示在 warning 中
+        }else if(officialName == OFFICIAL_LECTURE_NAME_OTHER){
+          // 非環保課程，不列在課程總數中
+        }else{
+          countLectureMatch++;
+          idMap[id]++;
+          idLecturesMap[id] += lecture+",";
+        }
+      }
+
+      // console.log(id)
+    }
+    // TODO: 印出總人數那些資訊
+    console.log(countTotal);
+    console.log(countIDMatch);
+    console.log(countLectureMatch);
+  }
+  fileReader.readAsText(fileExcelAll);
+  // TODO: 印出是 modeAstep1 做的
+}
+
+// 找出 filePersonnel 的 ID 並儲存至 idMap 的 key，其預設 value 為 0
+function modeAstep1() {
+  var count = 0;
+  var countMap = 0;
+
+  var fileReader = new FileReader();
+  fileReader.onload = function(e) {
+    var content = fileReader.result;
+    var lines = content.split('\n');
+    var linesLength = lines.length;
+
+    // Workaround for issue 1, we enforce filePersonnel contains two column data, the 1st is ID and the 2nd is empty.
+    // var workaround = lines[0].split(',');
+    // if(!workaround[1]){
+    //   alert("請確認您的 (B) 單位人員名單（兩欄式）檔案為兩欄式，第二欄全為空白即可");
+    //   return;
+    // }
+
+    for (var i = 0; i < linesLength; i++) {
+      var token = lines[i].split(',');
+      count++;
+
+      var id = token[0].trim();
+      // Add to Map
+      if (!(id in idMap)) {
+        // console.log(token[0]);
+        idMap[id] = 0; // init value = 0
+        countMap++;
+      }
+
+      // console.log(token[0])
+    }
+    // TODO: 印出總人數那些資訊
+    // console.log(count);
+    // console.log(countMap);
+    // console.log(idMap);
+  }
+  fileReader.readAsText(filePersonnel);
+  // TODO: 印出是 modeAstep1 做的
 }
 
 
 function printMap() {
   for (var key in lecturesMap) {
-    console.log(key + " : " + lecturesMap[x]); // print key:value
+    console.log(key + " : " + lecturesMap[key]); // print key:value
   }
 }
 
 
-/*
-  從 JSON 讀取進 javascript 之後，資料結構為 Lecture，屬性為 name 和 aliasArray 這兩個而已
-  已經跟 alias, aName 等等名稱沒關係了，不要被 JSON 給影響，已經沒有關連了
-*/
-function printLectures() {
-  // alert("ss");
-  for (var x in lectures) {
-    var tmp = lectures[x];
-    for (var m in tmp.aliasArray) {
-      // console.log(tmp.name + ": ");
-      console.log(tmp.name + ": " + tmp.aliasArray[m]);
-    }
-  }
-}
 
 // javascript
 // 先處理完
