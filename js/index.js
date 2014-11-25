@@ -1,33 +1,28 @@
-var JSON_FILE_NAME = "lecture.json";
-
-
 $(function() {
   init();
+  loadJSON();
 });
 
 
 function init() {
-    loadJSON();
-  } // init()
+    fileExcelAll = "";
+    filefilePersonnel = "";
+    lecturesMap = {};
+} // init()
 
 
 function loadJSON() {
   $.getJSON(JSON_FILE_NAME, function(data) {
-      // Assign json contents to Global variable "lectures".
       var list = data.lectureLists;
       for (var i in list) {
-        var lecture = new Lecture();
-        lecture.name = list[i].name;
-        lecture.aliasArray = new Array();
-
-        var aliasList = list[i].alias;
-        for (var k in aliasList) {
+        // using hash map
+        var value = list[i].name;
+        for (var k in list[i].alias) {
           // console.log(list[i].name+aliasList[k].aName);
-          lecture.aliasArray[k] = aliasList[k].aName;
+          var key = list[i].alias[k].aName;
+          // add to map
+          lecturesMap[key] = value;
         }
-
-        // Add to array
-        lectures[i] = lecture;
       }
       afterLoadJSON();
     })
@@ -37,8 +32,58 @@ function loadJSON() {
 }
 
 function afterLoadJSON() {
-  printLectures();
+  // printLectures();
+  // printMap();
+  bindButton();
 }
+
+
+function bindButton() {
+  // document.getElementById('studentChangeFileInput').addEventListener('change', loadFromFile, false);
+
+  $('#input_fileExcelAll').change(function(e) {
+    fileExcelAll = e.target.files[0];
+  });
+
+  $('#input_filePersonnel').change(function(e) {
+    filePersonnel = e.target.files[0];
+  });
+
+  $('#btn_start').bind('click', function(){
+    loadFromFile();
+  });
+
+}
+
+// TODO: 要不要改用 Worker tread 避免卡住?
+function loadFromFile() {
+  // var file = fileExcelAll;
+  var file = filePersonnel;
+  if (file) {
+    var fileReader = new FileReader();
+    fileReader.onload = function(e) {
+      var content = fileReader.result;
+      var lines = content.split('\n');
+      var linesLength = lines.length;
+      for (var i = 0; i < linesLength; i++) {
+        var words = lines[i].split(',');
+        // TODO:
+        console.log(words)
+      }
+    }
+    fileReader.readAsText(file);
+  } else {
+    alert("Failed to load file");
+  }
+}
+
+
+function printMap() {
+  for (var key in lecturesMap) {
+    console.log(key + " : " + lecturesMap[x]); // print key:value
+  }
+}
+
 
 /*
   從 JSON 讀取進 javascript 之後，資料結構為 Lecture，屬性為 name 和 aliasArray 這兩個而已
