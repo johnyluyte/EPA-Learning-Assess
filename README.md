@@ -7,6 +7,7 @@ To be updated.
 
 
 ## Todo Lists
+- Variable in JavaScript callback functions always gets last value in loop?
 - 確保重複使用時，變數都有正常 init()
 - [Issue 1]CSV 的最後一行最好加上 newline，否則可能會重複算到最後一行（同樣的字串，在檔案中間 跟在檔案最後面，會被視為不同字串，應該跟換行符號有關係）
  - [Solved] 只要在每一行最後面加上 "," 即可，是因為 split(",") 的關係嗎?

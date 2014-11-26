@@ -8,6 +8,11 @@ var OFFICIAL_LECTURE_NAME_UNKNOW = "unknown";
 // 在我們的 JSON 資料庫內的課程名稱，且我們已認定其為 非環保科目（基礎日文、舞蹈課程等）
 var OFFICIAL_LECTURE_NAME_OTHER = "other";
 
+var countTotal;
+var countMatchID;
+var countMatchIdAndLecture;
+var countTotalPersonnel;
+
 /*
   Init Map:
     var map = {};

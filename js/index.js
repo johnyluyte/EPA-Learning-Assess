@@ -10,6 +10,10 @@ function init() {
     lecturesMap = {};
     idMap = {};
     idLecturesMap = {};
+    countTotal = 0;
+    countMatchID = 0;
+    countMatchIdAndLecture = 0;
+    countTotalPersonnel = 0;
   } // init()
 
 
@@ -20,7 +24,6 @@ function loadJSON() {
         // using hash map
         var value = list[i].name;
         for (var k in list[i].alias) {
-          // console.log(list[i].name+aliasList[k].aName);
           var key = list[i].alias[k].aName;
           // add to map
           lecturesMap[key] = value;
@@ -63,18 +66,124 @@ function loadFromFile() {
   if (filePersonnel) {
     // 要取 fileExcelAll 和 filePersonnel 的 ID 的交集
     modeAstep1();
-    modeAstep2();
   }
 
 }
 
-function strGetLectureOfficialName(lectureName){
-  // console.log(lectureName);
-  // apple = "病媒防治：噴藥器材簡介";
-  // if(apple==lectureName){
-  //   console.log("same");
-  // }
-  if(lectureName in lecturesMap){
+function onClickTableID(id) {
+  console.log("onclick id = " + id);
+  var str = "";
+  str += '<table class="table table-hover table-bordered table-striped">';
+  str += '  <tr>';
+  str += '    <th class="warning">' + id + '</th>';
+  str += '  </tr>';
+
+  var strLectures = idLecturesMap[id].split(',');
+  var count = strLectures.length;
+  for (var i = 0; i < count; i++) {
+    str += '<tr><td>';
+    str += strLectures[i].trim();
+    str += '</td></tr>';
+    console.log("strLectures = " + strLectures[i].trim());
+  }
+
+  // str += '  <tr>';
+  // str += '    <td>清淨家園（Ecolife）-社區綠美化</td>';
+  // str += '  </tr>';
+  // str += '  <tr>';
+  // str += '    <td>病媒防治：噴藥器材簡介</td>';
+  // str += '  </tr>';
+  str += '  <tr>';
+  str += '    <td class="warning"><strong>共上 ' + count + ' 堂課程</strong></td>';
+  str += '  </tr>';
+  str += '</table>';
+  $('#div_id_lecture_info').html(str);
+}
+
+/*
+  input: P****42565
+  output: P42565
+*/
+function getShortID(id) {
+  var shortID = id.substring(0, 1) + id.substring(5, 10);
+  return shortID;
+}
+
+function printResultTable() {
+  var str = "";
+  str += '<table class="table table-bordered">';
+  str += '<tr>';
+  str += '  <th>ID</th>';
+  str += '  <th>課程堂數</th>';
+  str += '  <th>ID</th>';
+  str += '  <th>課程堂數</th>';
+  str += '  <th>ID</th>';
+  str += '  <th>課程堂數</th>';
+  // str += '</tr>';
+
+  var count = 0;
+  for (var id in idMap) {
+    count++;
+    if (count % 3 == 1) {
+      str += '</tr><tr>';
+    }
+    if (idMap[id] == 0) {
+      str += '<td class="danger getInfo" id="td' + getShortID(id) + '">';
+    } else {
+      str += '<td class="getInfo" id="td' + getShortID(id) + '">';
+    }
+    // Because the character '*' means something to the jQuery selector
+    // We cannot have it in the 'id' field.
+    // Thus a id with value "tdP****42565" should be changed to just "tdP42565"
+    str += id + '</td>';
+    str += '<td>' + idMap[id] + '</td>';
+  }
+  str += '</tr>';
+  str += '</table>';
+
+
+  str += '<table class="table table-hover table-bordered table-striped">';
+  str += '  <tr>';
+  str += '    <th>資料總筆數</th>';
+  str += '    <th>符合ＩＤ的筆數</th>';
+  str += '    <th>符合ＩＤ及環保課程</th>';
+  str += '    <th>職員人數</th>';
+  str += '    <th>加分</th>';
+  str += '  </tr>';
+
+  str += '  <tr>';
+  str += '    <td>' + countTotal + '</td>';
+  str += '    <td>' + countMatchID + '</td>';
+  str += '    <td>' + countMatchIdAndLecture + '</td>';
+  str += '    <td>' + countTotalPersonnel + '</td>';
+  str += '    <td class="success"><strong>1</strong>';
+  str += '    </td>';
+  str += '  </tr>';
+
+  str += '</table>';
+  str += '註：採用之人數＝總人數—不符合名單的人數';
+  str += '<br/>';
+  str += '<span id="testt">apple</span>';
+
+  $("#div_result_table").html(str);
+
+
+  // Bind <span id=""> to function after the HTML is loaded in the $Document
+  for (var id in idMap) {
+    var tmp = id;
+    // console.log($('#td'+getShortID(id)).html());
+    $(document).bind('click', '#td' + getShortID(tmp), function() {
+      console.log("asdadss");
+      onClickTableID(tmp);
+      // code here
+    });
+  }
+}
+
+
+
+function strGetLectureOfficialName(lectureName) {
+  if (lectureName in lecturesMap) {
     return lecturesMap[lectureName];
   }
   return OFFICIAL_LECTURE_NAME_UNKNOW;
@@ -82,10 +191,6 @@ function strGetLectureOfficialName(lectureName){
 
 // 讀取 fileExcelAll 中符合 idMap 的 key 的 id，若其課程名稱對應到已知環保課程名稱，將其 idMap value 加一
 function modeAstep2() {
-  var countTotal = 0;
-  var countIDMatch = 0;
-  var countLectureMatch = 0;
-
   var fileReader = new FileReader();
   fileReader.onload = function(e) {
     var content = fileReader.result;
@@ -100,25 +205,34 @@ function modeAstep2() {
       var id = token[0].trim();
       var lecture = token[1].trim();
       if (id in idMap) {
-        countIDMatch++;
+        countMatchID++;
         var officialName = strGetLectureOfficialName(lecture);
-        if(officialName == OFFICIAL_LECTURE_NAME_UNKNOW){
+        if (officialName == OFFICIAL_LECTURE_NAME_UNKNOW) {
           // TODO: 顯示在 warning 中
-        }else if(officialName == OFFICIAL_LECTURE_NAME_OTHER){
+        } else if (officialName == OFFICIAL_LECTURE_NAME_OTHER) {
           // 非環保課程，不列在課程總數中
-        }else{
-          countLectureMatch++;
-          idMap[id]++;
-          idLecturesMap[id] += lecture+",";
+        } else {
+          countMatchIdAndLecture++;
+          idMap[id] ++;
+          if (idLecturesMap[id] == null) {
+            idLecturesMap[id] = lecture;
+          } else {
+            idLecturesMap[id] += "," + lecture;
+          }
+          // onClickTableID(id);
+
         }
       }
-
       // console.log(id)
     }
+    countTotalPersonnel = Object.keys(idMap).length;
+    printResultTable();
+
+
     // TODO: 印出總人數那些資訊
-    console.log(countTotal);
-    console.log(countIDMatch);
-    console.log(countLectureMatch);
+    // console.log( countTotal);
+    // console.log( countMatchID);
+    // console.log( countMatchIdAndLecture);
   }
   fileReader.readAsText(fileExcelAll);
   // TODO: 印出是 modeAstep1 做的
@@ -126,40 +240,20 @@ function modeAstep2() {
 
 // 找出 filePersonnel 的 ID 並儲存至 idMap 的 key，其預設 value 為 0
 function modeAstep1() {
-  var count = 0;
-  var countMap = 0;
-
   var fileReader = new FileReader();
   fileReader.onload = function(e) {
     var content = fileReader.result;
     var lines = content.split('\n');
     var linesLength = lines.length;
-
-    // Workaround for issue 1, we enforce filePersonnel contains two column data, the 1st is ID and the 2nd is empty.
-    // var workaround = lines[0].split(',');
-    // if(!workaround[1]){
-    //   alert("請確認您的 (B) 單位人員名單（兩欄式）檔案為兩欄式，第二欄全為空白即可");
-    //   return;
-    // }
-
     for (var i = 0; i < linesLength; i++) {
       var token = lines[i].split(',');
-      count++;
-
       var id = token[0].trim();
       // Add to Map
       if (!(id in idMap)) {
-        // console.log(token[0]);
         idMap[id] = 0; // init value = 0
-        countMap++;
       }
-
-      // console.log(token[0])
     }
-    // TODO: 印出總人數那些資訊
-    // console.log(count);
-    // console.log(countMap);
-    // console.log(idMap);
+    modeAstep2();
   }
   fileReader.readAsText(filePersonnel);
   // TODO: 印出是 modeAstep1 做的
