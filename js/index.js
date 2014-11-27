@@ -70,35 +70,6 @@ function loadFromFile() {
 
 }
 
-function onClickTableID(id) {
-  console.log("onclick id = " + id);
-  var str = "";
-  str += '<table class="table table-hover table-bordered table-striped">';
-  str += '  <tr>';
-  str += '    <th class="warning">' + id + '</th>';
-  str += '  </tr>';
-
-  var strLectures = idLecturesMap[id].split(',');
-  var count = strLectures.length;
-  for (var i = 0; i < count; i++) {
-    str += '<tr><td>';
-    str += strLectures[i].trim();
-    str += '</td></tr>';
-    console.log("strLectures = " + strLectures[i].trim());
-  }
-
-  // str += '  <tr>';
-  // str += '    <td>清淨家園（Ecolife）-社區綠美化</td>';
-  // str += '  </tr>';
-  // str += '  <tr>';
-  // str += '    <td>病媒防治：噴藥器材簡介</td>';
-  // str += '  </tr>';
-  str += '  <tr>';
-  str += '    <td class="warning"><strong>共上 ' + count + ' 堂課程</strong></td>';
-  str += '  </tr>';
-  str += '</table>';
-  $('#div_id_lecture_info').html(str);
-}
 
 /*
   input: P****42565
@@ -163,29 +134,72 @@ function printResultTable() {
   str += '</table>';
   str += '註：採用之人數＝總人數—不符合名單的人數';
   str += '<br/>';
-  str += '<span id="testt">apple</span>';
 
   $("#div_result_table").html(str);
 
 
   // Bind <span id=""> to function after the HTML is loaded in the $Document
   for (var id in idMap) {
-    var tmp = id;
-    // console.log($('#td'+getShortID(id)).html());
-    $(document).bind('click', '#td' + getShortID(tmp), function() {
-      console.log("asdadss");
-      onClickTableID(tmp);
-      // code here
-    });
+
+    // TODO: what is the difference between these codes? Why only the last one works?
+    // $('#td' + getShortID(id)).bind('click', (function(argId) {
+    // $(document).on('click', '#td' + getShortID(id), (function(argId) {
+    // $(document).bind('click', '#td' + getShortID(id), (function(argId) {
+    document.getElementById('td' + getShortID(id)).addEventListener('click', (function(argId) {
+      return function(){
+        onClickTableID(argId);
+      }
+    })(id), false);
   }
 }
 
+function onClickTableID(id) {
+  console.log("onclick id = " + id);
+  // console.log("idLecturesMap[id] = " + idLecturesMap[id]);
+  var str = "";
+  str += '<table class="table table-hover table-bordered table-striped">';
+  str += '  <tr>';
+  str += '    <th class="warning">' + id + '</th>';
+  str += '  </tr>';
+
+  var strLectures = idLecturesMap[id].split(',');
+
+  var count;
+  if(strLectures[0].trim()==""){
+    count = 0; // there is no lecture here, we init count at 0;
+  }else{
+    count = strLectures.length; // there is at least 1 lecture here, we init count at its length;
+  }
+  for (var i = 0; i < count; i++) {
+    str += '<tr><td>';
+    str += strLectures[i].trim();
+    str += '</td></tr>';
+    console.log("strLectures = " + strLectures[i].trim());
+  }
+
+  str += '  <tr>';
+  str += '    <td class="warning"><strong>共上 ' + count + ' 堂課程</strong></td>';
+  str += '  </tr>';
+  str += '</table>';
+  $('#div_id_lecture_info').html(str);
+}
 
 
 function strGetLectureOfficialName(lectureName) {
-  if (lectureName in lecturesMap) {
-    return lecturesMap[lectureName];
+  // 完全比對
+  // if (lectureName in lecturesMap) {
+  //   return lecturesMap[lectureName];
+  // }
+
+  // 比對 substring，只要 lectureName 字串中包含 lecturesMap 的 key，就回傳 lecturesMap[lectureName]
+  for(var key in lecturesMap){
+    // console.log(lectureName.indexOf(key));
+    if(lectureName.indexOf(key) > -1){
+      return lecturesMap[lectureName];
+    }
   }
+
+
   return OFFICIAL_LECTURE_NAME_UNKNOW;
 }
 
@@ -214,7 +228,7 @@ function modeAstep2() {
         } else {
           countMatchIdAndLecture++;
           idMap[id] ++;
-          if (idLecturesMap[id] == null) {
+          if (idLecturesMap[id] == "") {
             idLecturesMap[id] = lecture;
           } else {
             idLecturesMap[id] += "," + lecture;
@@ -251,6 +265,7 @@ function modeAstep1() {
       // Add to Map
       if (!(id in idMap)) {
         idMap[id] = 0; // init value = 0
+        idLecturesMap[id] = "";
       }
     }
     modeAstep2();
