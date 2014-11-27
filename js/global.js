@@ -1,6 +1,8 @@
 var fileExcelAll;
 var filePersonnel;
 
+var OUTPUT_FILENAME_SUFFIX = "-分析結果.csv"; // ex: 台中市環保局網路學習-分析結果
+
 var JSON_FILE_NAME = "lecture.json";
 
 // 不在我們的 JSON 資料庫內的課程名稱
@@ -12,6 +14,8 @@ var countTotal;
 var countMatchID;
 var countMatchIdAndLecture;
 var countTotalPersonnel;
+
+var unknowLectures;
 
 /*
   Init Map:
@@ -43,25 +47,18 @@ var idMap = {};
 
 /*
   key: 地方人員身分證 ID
-  value: 上過的環保課程總數
-  idLecturesMap["A****35182"] = "病媒防治：噴藥器材簡介,海洋油污染應變(基礎篇)";
+  value: 上過的環保課程
+  idLecturesMap["A****35182"] = "病媒防治：噴藥器材簡介、海洋油污染應變(基礎篇)";
+  注意這裏是以全形逗號來分隔
 */
 var idLecturesMap = {};
 
-
 /*
-function Student(){
-  var id; // 身分證字號（A****59139）
-  var lectureArray; // 參與過的課程 陣列
-  var total; // 總上課堂數（3）
-}
-var students = new Array(); // Array 內的資料結構為 Student
+  key: 地方人員身分證 ID
+  value: 上過的其他課程，非環保課程
+  idLecturesMap["A****35182"] = "打造職場好形象、職場必備的商務禮儀";
+  注意這裏是以全形逗號來分隔
 */
+var idOtherMap = {};
 
-/*
-function Lecture(){
-  var name;  // 課程名稱
-  var aliasArray;  // 課程別名 陣列
-}
-var lectures = new Array(); // Array 內的資料結構為 Lecture
-*/
+
