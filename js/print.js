@@ -8,6 +8,8 @@ function getShortID(id) {
 }
 
 function printResultTable(mode) {
+  countTotalPersonnel = Object.keys(idMap).length;
+
   var str = "";
   if (mode === "modeA") {
     str += "模式 A：僅分析 (A) 人員與上課情形。";

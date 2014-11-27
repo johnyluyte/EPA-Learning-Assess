@@ -130,10 +130,7 @@ function modeAstep1() {
         idMap[id] ++;
         addToIdLectureMap(id,lecture);
       }
-
     }
-    // TODO: 印出是 modeAstep1 做的
-    countTotalPersonnel = Object.keys(idMap).length;
     printResultTable("modeA");
   };
   fileReader.readAsText(fileExcelAll);
@@ -172,8 +169,6 @@ function modeBstep2() {
         }
       }
     }
-    // TODO: 印出是 modeAstep1 做的
-    countTotalPersonnel = Object.keys(idMap).length;
     printResultTable("modeB");
   };
   fileReader.readAsText(fileExcelAll);
