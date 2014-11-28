@@ -34,14 +34,29 @@ function printResultTable(mode) {
     }
     if (idMap[id] === 0) {
       str += '<td class="danger getInfo" id="td' + getShortID(id) + '">';
+    } else if (idMap[id] === 1) {
+      str += '<td class="warning getInfo" id="td' + getShortID(id) + '">';
+    } else if (idMap[id] === 2) {
+      str += '<td class="info getInfo" id="td' + getShortID(id) + '">';
     } else {
-      str += '<td class="getInfo" id="td' + getShortID(id) + '">';
+      str += '<td class="success getInfo" id="td' + getShortID(id) + '">';
     }
     // Because the character '*' means something to the jQuery selector
     // We cannot have it in the 'id' field.
     // Thus a id with value "tdP****42565" should be changed to just "tdP42565"
     str += id + '</td>';
     str += '<td>' + idMap[id] + '</td>';
+    switch (idMap[id]) {
+      default: plus3PointCount++;
+      case 2:
+          plus2PointCount++;
+      case 1:
+          plus1PointCount++;
+          break;
+      case 0:
+          plus0PointCount++;
+          break;
+    }
   }
   str += '</tr>';
   str += '</table>';
@@ -49,19 +64,36 @@ function printResultTable(mode) {
 
   str += '<table class="table table-hover table-bordered table-striped">';
   str += '  <tr>';
-  str += '    <th>資料總筆數</th>';
-  str += '    <th>符合ＩＤ的筆數</th>';
-  str += '    <th>符合ＩＤ及環保課程</th>';
-  str += '    <th>職員人數</th>';
+  // str += '    <th>資料總筆數</th>';
+  // str += '    <th>符合ＩＤ的筆數</th>';
+  // str += '    <th>符合ＩＤ及環保課程</th>';
+  // str += '    <th>職員人數</th>';
+  str += '    <th>尚未修課人數</th>';
+  str += '    <th>一堂以上人數</th>';
+  str += '    <th>兩堂以上人數</th>';
+  str += '    <th>三堂以上人數</th>';
   str += '    <th>加分</th>';
   str += '  </tr>';
 
   str += '  <tr>';
-  str += '    <td>' + countTotal + '</td>';
-  str += '    <td>' + countMatchID + '</td>';
-  str += '    <td>' + countMatchIdAndLecture + '</td>';
-  str += '    <td>' + countTotalPersonnel + '</td>';
-  str += '    <td class="success"><strong>1</strong>';
+  // str += '    <td>' + countTotal + '</td>';
+  // str += '    <td>' + countMatchID + '</td>';
+  // str += '    <td>' + countMatchIdAndLecture + '</td>';
+  // str += '    <td>' + countTotalPersonnel + '</td>';
+  str += '    <td class="danger">' + plus0PointCount + ' / ' + countTotalPersonnel + '</td>';
+  str += '    <td class="warning">' + plus1PointCount + ' / ' + countTotalPersonnel + '</td>';
+  str += '    <td class="info">' + plus2PointCount + ' / ' + countTotalPersonnel + '</td>';
+  str += '    <td class="success">' + plus3PointCount + ' / ' + countTotalPersonnel + '</td>';
+  if (plus3PointCount === countTotalPersonnel) {
+    totalPlusPoint = 3;
+  } else if (plus2PointCount === countTotalPersonnel) {
+    totalPlusPoint = 2;
+  } else if (plus1PointCount === countTotalPersonnel) {
+    totalPlusPoint = 1;
+  } else {
+    totalPlusPoint = 0;
+  }
+  str += '    <td><strong>' + totalPlusPoint +'</strong>';
   str += '    </td>';
   str += '  </tr>';
 
@@ -87,6 +119,7 @@ function printResultTable(mode) {
 
   printUnknownLectureTable();
   createDownloadableContent();
+  clean();
 }
 
 function onClickTableID(id) {
@@ -106,7 +139,7 @@ function onClickTableID(id) {
     count = strLectures.length; // there is at least 1 lecture here, we init count at its length;
   }
   for (var i = 0; i < count; i++) {
-    str += '<tr class="success"><td>';
+    str += '<tr><td>';
     str += strLectures[i].trim();
     str += '</td></tr>';
     // console.log("strLectures = " + strLectures[i].trim());
@@ -139,7 +172,7 @@ function onClickTableID(id) {
 
 
 function printUnknownLectureTable() {
-  var str = "";
+  var str = "<hr>";
   if (unknowLectures === "") {
     str += "<h3>恭喜！沒有遇到未知的課程名稱！</h3>";
   } else {

@@ -1,13 +1,16 @@
 $(function() {
   init();
+  clean();
   loadJSON();
 });
 
+function clean(){
+  fileExcelAll = null;
+  filefilePersonnel = null;
+}
 
 function init() {
-    fileExcelAll = null;
-    filefilePersonnel = null;
-    lecturesMap = {};
+    // lecturesMap = {};  // 這個是 json 的資訊，不該清空？
     idMap = {};
     idLecturesMap = {};
     countTotal = 0;
@@ -15,6 +18,13 @@ function init() {
     countMatchIdAndLecture = 0;
     countTotalPersonnel = 0;
     unknowLectures = "";
+    idOtherMap = {};
+
+    plus0PointCount = 0;
+    plus1PointCount = 0;
+    plus2PointCount = 0;
+    plus3PointCount = 0;
+    totalPlusPoint = 0;
   } // init()
 
 
@@ -53,6 +63,7 @@ function bindButton() {
   });
 
   $('#btn_start').bind('click', function() {
+    init();
     loadFromFile();
   });
 }
@@ -89,7 +100,7 @@ function strGetLectureOfficialName(lectureName) {
     // 找看看 lectureName 是否包含 key
     //alert("foo".indexOf("oo") > -1);
     if (lectureName.indexOf(key) > -1) {
-      console.log(key + ":" + lectureName.indexOf(key) + " = " + lecturesMap[lectureName]);
+      // console.log(key + ":" + lectureName.indexOf(key) + " = " + lecturesMap[lectureName]);
       return lecturesMap[key];
     }
   }
@@ -121,14 +132,14 @@ function modeAstep1() {
       if (officialName == OFFICIAL_LECTURE_NAME_UNKNOW) {
         // TODO: 顯示在 warning 中
         addToUnknownLectures(lecture);
-        addToIdOtherMap(id,lecture);
+        addToIdOtherMap(id, lecture);
       } else if (officialName == OFFICIAL_LECTURE_NAME_OTHER) {
         // TODO: 非環保課程，不列在課程總數中
-        addToIdOtherMap(id,lecture);
+        addToIdOtherMap(id, lecture);
       } else {
         countMatchIdAndLecture++;
         idMap[id] ++;
-        addToIdLectureMap(id,lecture);
+        addToIdLectureMap(id, lecture);
       }
     }
     printResultTable("modeA");
@@ -158,14 +169,14 @@ function modeBstep2() {
         if (officialName == OFFICIAL_LECTURE_NAME_UNKNOW) {
           // TODO: 顯示在 warning 中
           addToUnknownLectures(lecture);
-          addToIdOtherMap(id,lecture);
+          addToIdOtherMap(id, lecture);
         } else if (officialName == OFFICIAL_LECTURE_NAME_OTHER) {
           // TODO: 非環保課程，不列在課程總數中
-          addToIdOtherMap(id,lecture);
+          addToIdOtherMap(id, lecture);
         } else {
           countMatchIdAndLecture++;
           idMap[id] ++;
-          addToIdLectureMap(id,lecture);
+          addToIdLectureMap(id, lecture);
         }
       }
     }
@@ -200,20 +211,22 @@ function modeBstep1() {
 
 
 function addToUnknownLectures(lecture) {
-  if (unknowLectures !== "") {
-    unknowLectures += ",";
+  if (unknowLectures === "") {
+    unknowLectures = lecture;
+  } else {
+    unknowLectures += "," + lecture;
   }
-  unknowLectures += lecture;
 }
 
-function addToIdOtherMap(id, lecture){
+function addToIdOtherMap(id, lecture) {
   if (idOtherMap[id] === "") {
     idOtherMap[id] = lecture;
   } else {
     idOtherMap[id] += "、" + lecture;
   }
 }
-function addToIdLectureMap(id, lecture){
+
+function addToIdLectureMap(id, lecture) {
   if (idLecturesMap[id] === "") {
     idLecturesMap[id] = lecture;
   } else {

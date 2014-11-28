@@ -75,6 +75,12 @@ function createCSV() {
     content += distincOurLectureAndOtherLecture(id);
     content += "\n";
   }
+  content += "尚未修課人數," + plus0PointCount + "\n";
+  content += "一堂以上人數," + plus1PointCount + "\n";
+  content += "兩堂以上人數," + plus2PointCount + "\n";
+  content += "三堂以上人數," + plus3PointCount + "\n";
+  content += "總加分," + totalPlusPoint + "\n";
+
   // 將此變數利用 blob 轉成可下載的物件。
   const MIME_TYPE = 'text/plain';
   var blob = new Blob([content], {
@@ -83,8 +89,8 @@ function createCSV() {
   var blobUrl = window.URL.createObjectURL(blob);
 
   var inputFileName = $("#input_fileExcelAll").val().split('/').pop().split('\\').pop();
-  inputFileName = inputFileName.substring(0,inputFileName.length-4);
-  console.log(inputFileName);
+  inputFileName = inputFileName.substring(0, inputFileName.length - 4);
+  // console.log(inputFileName);
 
   var fileName = inputFileName + OUTPUT_FILENAME_SUFFIX;
 
