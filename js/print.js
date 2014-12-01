@@ -172,6 +172,9 @@ function onClickTableID(id) {
 
 
 function printUnknownLectureTable() {
+  if(isListUnknown===false){
+    return;
+  }
   var str = "<hr>";
   if (unknowLectures === "") {
     str += "<h3>恭喜！沒有遇到未知的課程名稱！</h3>";

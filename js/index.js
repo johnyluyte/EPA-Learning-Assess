@@ -75,6 +75,13 @@ function loadFromFile() {
     return;
   }
 
+  if($('#cb_isListUnknown').prop('checked')===true){
+    isListUnknown = true;
+  }else{
+    isListUnknown = false;
+  }
+  console.log("isListUnknown="+isListUnknown);
+
   if (filePersonnel) {
     // 要取 fileExcelAll 和 filePersonnel 的 ID 的交集
     modeBstep1();
@@ -217,6 +224,9 @@ function modeBstep1() {
 
 
 function addToUnknownLectures(lecture) {
+  if(isListUnknown===false){
+    return;
+  }
   if (unknowLectures === "") {
     unknowLectures = lecture;
   } else {

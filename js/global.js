@@ -27,6 +27,8 @@ var plus3PointCount;
 var totalPlusPoint;
 
 
+// 是否要計算未知課程（會拖慢運算速度）
+var isListUnknown;
 // 未知的課程都會存到此字串內，不同課程之間以半形逗號相連接，其資料結構如下
 // "打造職場好形象,職場必備的商務禮儀,撥蝦專業教學"
 var unknowLectures;
