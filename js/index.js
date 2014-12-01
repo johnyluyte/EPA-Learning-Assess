@@ -121,6 +121,9 @@ function modeAstep1() {
 
       // [0] 身分證id , [1] 課程名稱
       var id = token[0].trim();
+      if(id===""){
+        continue;
+      }
       var lecture = token[1].trim();
       if (!(id in idMap)) {
         idMap[id] = 0;
@@ -162,6 +165,9 @@ function modeBstep2() {
 
       // [0] 身分證id , [1] 課程名稱
       var id = token[0].trim();
+      if(id===""){
+        continue;
+      }
       var lecture = token[1].trim();
       if (id in idMap) {
         countMatchID++;
