@@ -119,7 +119,6 @@ function printResultTable(mode) {
 
   printUnknownLectureTable();
   createDownloadableContent();
-  clean();
 }
 
 function onClickTableID(id) {

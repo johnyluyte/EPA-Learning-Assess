@@ -1,13 +1,8 @@
 $(function() {
   init();
-  clean();
   loadJSON();
 });
 
-function clean(){
-  fileExcelAll = null;
-  filefilePersonnel = null;
-}
 
 function init() {
     // lecturesMap = {};  // 這個是 json 的資訊，不該清空？
