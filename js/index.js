@@ -30,9 +30,9 @@ function loadJSON() {
         // using hash map
         var value = list[i].name;
         for (var k in list[i].alias) {
-          var key = list[i].alias[k].aName;
+          var key = list[i].alias[k].aName.trim();
           // add to map
-          lecturesMap[key] = value;
+          lecturesMap[key] = value.trim();
         }
       }
       afterLoadJSON();
@@ -75,7 +75,7 @@ function loadFromFile() {
   }else{
     isListUnknown = false;
   }
-  console.log("isListUnknown="+isListUnknown);
+  // console.log("isListUnknown="+isListUnknown);
 
   if (filePersonnel) {
     // 要取 fileExcelAll 和 filePersonnel 的 ID 的交集
@@ -98,14 +98,17 @@ function strGetLectureOfficialName(lectureName) {
   // lectureName = 我們遇到的資料，要判斷是否為環保課程
   // key = 我們資料庫中的 alias 名稱、非官方名稱，但是我們認可的環保課程
   // lecturesMap[lectureName]
+  // console.log("lectureName=" + lectureName);
   for (var key in lecturesMap) {
     // 找看看 lectureName 是否包含 key
     //alert("foo".indexOf("oo") > -1);
+    // console.log("key=" + key);
     if (lectureName.indexOf(key) > -1) {
-      // console.log(key + ":" + lectureName.indexOf(key) + " = " + lecturesMap[lectureName]);
+      // console.log(key + ":" + lectureName.indexOf(key) + " = " + lecturesMap[key]);
       return lecturesMap[key];
     }
   }
+  // console.log("--CANT FIND!");
   return OFFICIAL_LECTURE_NAME_UNKNOW;
 }
 
