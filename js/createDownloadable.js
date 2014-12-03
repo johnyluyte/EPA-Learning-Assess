@@ -68,7 +68,9 @@ function distincOurLectureAndOtherLecture(id) {
 
 function createCSV() {
   // 將目前頁面上的 option select 用 逗號 和 換行 分隔，並存入變數中。
-  var content = "人員ID,符合的課堂數,符合的環保課程,其他課程\n";
+  var BOM = "\uFEFF";
+  var content = BOM + content;
+  content += " 人員ID,符合的課堂數,符合的環保課程,其他課程\n";
   for (var id in idMap) {
     content += id + ",";
     content += idMap[id] + ",";
@@ -82,7 +84,7 @@ function createCSV() {
   content += "總加分," + totalPlusPoint + "\n";
 
   // 將此變數利用 blob 轉成可下載的物件。
-  const MIME_TYPE = 'text/plain';
+  const MIME_TYPE = 'text/csv';
   var blob = new Blob([content], {
     type: MIME_TYPE
   });

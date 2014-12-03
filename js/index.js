@@ -193,7 +193,7 @@ function modeBstep2() {
     }
     printResultTable("modeB");
   };
-  fileReader.readAsText(fileExcelAll);
+  fileReader.readAsText(fileExcelAll,'big5');
   // TODO: 印出是 modeAstep1 做的
 }
 
@@ -216,7 +216,7 @@ function modeBstep1() {
     }
     modeBstep2();
   };
-  fileReader.readAsText(filePersonnel);
+  fileReader.readAsText(filePersonnel,'big5');
 }
 
 
