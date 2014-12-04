@@ -69,8 +69,8 @@ function distincOurLectureAndOtherLecture(id) {
 function createCSV() {
   // 將目前頁面上的 option select 用 逗號 和 換行 分隔，並存入變數中。
   var BOM = "\uFEFF";
-  var content = BOM + content;
-  content += " 人員ID,符合的課堂數,符合的環保課程,其他課程\n";
+  var content = BOM;
+  content += "人員ID,符合的課堂數,符合的環保課程,其他課程\n";
   for (var id in idMap) {
     content += id + ",";
     content += idMap[id] + ",";

@@ -8,10 +8,8 @@ To be updated.
 
 ## Todo Lists
 
-- only (a) file
-- output csv
-- clean index UI
-- php send json
+- 要上傳 lecture.json
+- use iFrame on the right side
 - filter "other lecture" manually
 
 - Variable in JavaScript callback functions always gets last value in loop?
