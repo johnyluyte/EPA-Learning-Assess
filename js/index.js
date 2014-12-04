@@ -152,7 +152,7 @@ function modeAstep1() {
     }
     printResultTable("modeA");
   };
-  fileReader.readAsText(fileExcelAll);
+  fileReader.readAsText(fileExcelAll,'big5');
   // TODO: 印出是 modeAstep1 做的
 }
 
