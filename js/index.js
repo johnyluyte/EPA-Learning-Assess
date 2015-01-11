@@ -138,11 +138,11 @@ function modeAstep1() {
       countMatchID++;
       var officialName = strGetLectureOfficialName(lecture);
       if (officialName == OFFICIAL_LECTURE_NAME_UNKNOW) {
-        // TODO: 顯示在 warning 中
+        // 顯示在 warning 中
         addToUnknownLectures(lecture);
         addToIdOtherMap(id, lecture);
       } else if (officialName == OFFICIAL_LECTURE_NAME_OTHER) {
-        // TODO: 非環保課程，不列在課程總數中
+        // 非環保課程，不列在課程總數中
         addToIdOtherMap(id, lecture);
       } else {
         countMatchIdAndLecture++;
@@ -153,7 +153,6 @@ function modeAstep1() {
     printResultTable("modeA");
   };
   fileReader.readAsText(fileExcelAll,'big5');
-  // TODO: 印出是 modeAstep1 做的
 }
 
 
@@ -178,11 +177,11 @@ function modeBstep2() {
         countMatchID++;
         var officialName = strGetLectureOfficialName(lecture);
         if (officialName == OFFICIAL_LECTURE_NAME_UNKNOW) {
-          // TODO: 顯示在 warning 中
+          // 顯示在 warning 中
           addToUnknownLectures(lecture);
           addToIdOtherMap(id, lecture);
         } else if (officialName == OFFICIAL_LECTURE_NAME_OTHER) {
-          // TODO: 非環保課程，不列在課程總數中
+          // 非環保課程，不列在課程總數中
           addToIdOtherMap(id, lecture);
         } else {
           countMatchIdAndLecture++;
@@ -194,7 +193,6 @@ function modeBstep2() {
     printResultTable("modeB");
   };
   fileReader.readAsText(fileExcelAll,'big5');
-  // TODO: 印出是 modeAstep1 做的
 }
 
 // 找出 filePersonnel 的 ID 並儲存至 idMap 的 key，其預設 value 為 0

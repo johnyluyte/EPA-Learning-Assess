@@ -103,24 +103,3 @@ function createCSV() {
   });
 
 }
-
-/*
-// 指定 目前的日期時間 為 檔案名稱。
-function getFileName(suffix) {
-  var currentdate = new Date();
-  var fileName = "" + currentdate.getFullYear() + fixOneDigit((currentdate.getMonth() + 1)) + fixOneDigit(currentdate.getDate()) + "_" + fixOneDigit(currentdate.getHours()) + fixOneDigit(currentdate.getMinutes()) + fixOneDigit(currentdate.getSeconds()) + suffix;
-  return fileName;
-}
-
-// 如果現在時間是 2014/11/1, 21:07, 02
-// 可能我們會得到 2014111_2172
-// 而我們想要的是 20141101_210702 才對
-// 這個 function 可以 fix 上述問題。
-function fixOneDigit(x) {
-  var result = x;
-  if (result < 10) {
-    result = "0" + result;
-  }
-  return result;
-}
-*/

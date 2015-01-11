@@ -3,23 +3,49 @@
 
 ## Usage
 
-To be updated.
+### 1. 存成 CSV 檔案
+
+`請確認只用到第一個工作表的前兩個欄位，第一個欄位為ＩＤ，第二個欄位為該ＩＤ所修的課程。`
+
+![](tutorial/a1.png)
+
+`另存新檔，存檔類型選擇 "CSV"。`
+
+![](tutorial/a2.png)
+![](tutorial/a3.png)
+
+`選擇確定`
+
+![](tutorial/a4.png)
+
+`關閉檔案時，選擇不要儲存。`
+
+![](tutorial/a5.png)
+
+### 2. 操作指引
+
+`(A)人員與上課情形：選擇將剛剛的 CSV 檔案，按開始執行。`
+
+![](tutorial/a11.png)
+
+### 3. 介面說明
+
+- 點選學員 ID 可以觀看其環保課程的修課紀錄。
+- 以顏色區分尚未修課、修一堂、修兩堂、修三堂以上的學員。
+- 可將結果下載成 CSV 檔案，用 excel 開啟。
+
+![](tutorial/a12.png)
+
+`點選「下載 CSV 檔」"即可下載，用 excel 開啟後如下圖。`
+
+![](tutorial/a16.png)
+
 
 
 ## Todo Lists
 
-- 要上傳 lecture.json
-- use iFrame on the right side
-- filter "other lecture" manually
+- Code Refactoring.
 
-- Variable in JavaScript callback functions always gets last value in loop?
-- 確保重複使用時，變數都有正常 init()
-- [Issue 1]CSV 的最後一行最好加上 newline，否則可能會重複算到最後一行（同樣的字串，在檔案中間 跟在檔案最後面，會被視為不同字串，應該跟換行符號有關係）
- - [Solved] 只要在每一行最後面加上 "," 即可，是因為 split(",") 的關係嗎?
-- [Issue 2] 從 CSV 讀取進來的字串 跟 從 JSON 讀取進來的字串不一樣！？
- - 從 CSV 經過 split '\n' ',' 後的「最後一行」的字串 跟 從 JSON 讀取進來的字串一樣。最後一行以外的字串卻都不被視為一樣。
- - 加上 .trim() 試試看？
- - https://stackoverflow.com/questions/863524/javascript-string-compare-sometimes-fails
 
 ## License
 
