@@ -10,7 +10,7 @@ function getShortID(id) {
 function printResultTable(mode) {
   countTotalPersonnel = Object.keys(idMap).length;
 
-  var str = "";
+  var str = "<hr>";
   if (mode === "modeA") {
     str += "模式 A：僅分析 (A) 人員與上課情形。";
   } else if (mode === "modeB") {
@@ -24,7 +24,6 @@ function printResultTable(mode) {
   str += '  <th>課程堂數</th>';
   str += '  <th>ID</th>';
   str += '  <th>課程堂數</th>';
-  // str += '</tr>';
 
   var count = 0;
   for (var id in idMap) {
