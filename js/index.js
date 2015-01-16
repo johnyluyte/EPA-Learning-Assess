@@ -206,7 +206,7 @@ function modeBstep1() {
       var token = lines[i].split(',');
       var id = token[0].trim();
       // Add to Map
-      if (!(id in idMap)) {
+      if (!(id in idMap) && (id != "")) {
         idMap[id] = 0; // init value = 0
         idLecturesMap[id] = "";
         idOtherMap[id] = "";
