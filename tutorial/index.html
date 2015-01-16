@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <title>教學</title>
   <link rel="stylesheet" type="text/css" href="index.css">
-  <!-- <link rel="stylesheet" type="text/css" href="../lib/bootstrap/darkly.min.css"> -->
   <link rel="stylesheet" type="text/css" href="config.css">
   <style type="text/css">
   .footer {
@@ -22,6 +21,9 @@
     padding-right: 15px;
     padding-left: 15px;
   }
+  h1{
+    color: blue;
+  }
   </style>
 </head>
 
@@ -33,10 +35,13 @@
         <div class="bs-sidebar hidden-print" role="complementary">
           <ul class="nav bs-sidenav">
             <li class="li_center">
-              <h4>上傳檔案</h4>
+              <h4>檔案格式</h4>
             </li>
             <li>
-              <a href="#step1">1. 存成 CSV 檔案</a>
+              <a href="#step1-1">1.1 人員與上課情形資料表</a>
+            </li>
+            <li>
+              <a href="#step1-2">1.2 單位人員名單資料表</a>
             </li>
             <li class="li_center">
               <h4>開始計算</h4>
@@ -47,8 +52,12 @@
             <li>
               <a href="#step3">3. 介面說明</a>
             </li>
+            <br>
+            <li class="li_center">
+              <h4>連結</h4>
+            </li>
             <li>
-              <a href="#step4">4. 下載說明</a>
+              <a href="../index.html">回操作頁面</a>
             </li>
           </ul>
         </div>
@@ -59,28 +68,44 @@
       <div class="col-md-9">
 
         <div class="infoSection">
-          <h1 id='step1'><b>1. 存成 CSV 檔案</b></h1>
+          <h1 id='step1-1'><b>1.1 人員與上課情形資料表</b></h1>
 
           <div class="alert alert-success">
-            <p>請確認只用到第一個工作表的前兩個欄位，第一個欄位為ＩＤ，第二個欄位為該ＩＤ所修的課程</p>
+            <p>請確認只用到第一個工作表的前兩個欄位，第一個欄位為ＩＤ，第二個欄位為該ＩＤ所修的課程。</p>
           </div>
           <img src="a1.png" height="267" width="522" alt="">
 
           <div class="alert alert-success">
-            <p>另存新檔，存檔類型選擇 "CSV"</p>
+            <p>另存新檔，存檔類型選擇 "CSV"。</p>
           </div>
           <img src="a2.png" height="294" width="490" alt="">
 
           <div class="alert alert-success">
-            <p>選擇確定</p>
+            <p>選擇確定。</p>
           </div>
           <img src="a3.png" height="126" width="726" alt="">
           <img src="a4.png" height="137" width="737" alt="">
 
           <div class="alert alert-success">
-            <p>關閉檔案時，選擇不要儲存</p>
+            <p>關閉檔案時，選擇不要儲存。</p>
           </div>
           <img src="a5.png" height="122" width="400" alt="">
+
+        </div>
+        <hr>
+
+
+        <div class="infoSection">
+          <h1 id='step1-2'><b>1.2 單位人員名單資料表</b></h1>
+
+          <div class="alert alert-success">
+            <p>請確認只用到第一個工作表的第一個欄位，第一個欄位為ＩＤ，其餘欄位皆空白。</p>
+          </div>
+          <img src="b1.png" height="249" width="239" alt="">
+
+          <div class="alert alert-success">
+            <p>存檔類型請選擇 "CSV"，詳細步驟請參考上方 "1.1 人員與上課情形資料表" 部分。</p>
+          </div>
 
         </div>
         <hr>
@@ -88,9 +113,13 @@
         <div class="infoSection">
           <h1 id='step2'><b>2. 操作指引</b></h1>
           <div class="alert alert-success">
-            <p>(A)人員與上課情形：選擇將剛剛的 CSV 檔案，按開始執行</p>
+            <p>若不需限制人員名單，請在 (A)人員與上課情形 欄位選擇 人員與上課情形資料表，按開始執行。</p>
           </div>
           <img src="a11.png" height="168" width="559" alt="">
+          <div class="alert alert-success">
+            <p>若需限制人員名單，請在 (A)人員與上課情形 欄位選擇 人員與上課情形資料表，在 (B) 單位人員名單 欄位選擇 單位人員名單資料表，按開始執行。</p>
+          </div>
+          <img src="b2.png" height="168" width="559" alt="">
         </div>
         <hr>
 
@@ -99,21 +128,18 @@
           <div class="alert alert-success">
             <ul>
               <li>點選學員 ID 可以觀看其環保課程的修課紀錄。</li>
-              <li>以顏色區分尚未修課、修一堂、修兩堂、修三堂以上的學員</li>
-              <li>可將結果下載成 CSV 檔案，用 excel 開啟</li>
+              <li>以顏色區分尚未修課、修一堂、修兩堂、修三堂以上的學員。</li>
+              <li>可將結果下載成 CSV 檔案，用 excel 開啟。</li>
             </ul>
           </div>
           <img src="a12.png" height="176" width="894" alt="">
-        </div>
-        <hr>
-
-        <div class="infoSection">
-          <h1 id='step4'><b>4. 下載說明</b></h1>
           <div class="alert alert-success">
-            <p>點選「下載 CSV 檔」"即可下載，用 excel 開啟後如下圖</p>
+            <p>點選「下載 CSV 檔」"即可下載，用 excel 開啟後如下圖：</p>
           </div>
           <img src="a16.png" height="267" width="641" alt="">
         </div>
+        <hr>
+
 
       </div>
       <!-- end col-md-9 -->
