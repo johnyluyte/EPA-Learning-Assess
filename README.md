@@ -8,17 +8,17 @@ The Learning Assess rubric system for [Environmental Protection Agency](http://w
 
 Demo page:
 
-- [http://chunnorris.net/public/epa-la/](http://chunnorris.net/public/epa-la/)
+- [http://chunnorris.cc/public/epa-la/](http://chunnorris.cc/public/epa-la/)
 
 Demo files:
 
-- [Personnel with Lectures: Chiayi (ANSI)](http://chunnorris.net/public/epa-la/demo/Chiayi_ANSI.csv)
-- [Personnel with Lectures: Chiayi (UTF8 BOM)](http://chunnorris.net/public/epa-la/demo/Chiayi_UTF8_BOM.csv)
-- [Personnel: Chiayi](http://chunnorris.net/public/epa-la/demo/ChiayiPersonnel.csv)
+- [Personnel with Lectures: Chiayi (ANSI)](http://chunnorris.cc/public/epa-la/demo/Chiayi_ANSI.csv)
+- [Personnel with Lectures: Chiayi (UTF8 BOM)](http://chunnorris.cc/public/epa-la/demo/Chiayi_UTF8_BOM.csv)
+- [Personnel: Chiayi](http://chunnorris.cc/public/epa-la/demo/ChiayiPersonnel.csv)
 
 ## Usage
 
-[http://chunnorris.net/public/epa-la/tutorial/](http://chunnorris.net/public/epa-la/tutorial/)
+[http://chunnorris.cc/public/epa-la/tutorial/](http://chunnorris.cc/public/epa-la/tutorial/)
 
 ## Todo Lists
 
